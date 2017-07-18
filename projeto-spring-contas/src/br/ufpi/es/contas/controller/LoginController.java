@@ -2,6 +2,7 @@ package br.ufpi.es.contas.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.ufpi.es.contas.dao.*;
@@ -11,6 +12,7 @@ import br.ufpi.es.contas.modelo.Usuario;
 public class LoginController{
 	UsuarioDAO dao;
 	
+	@Autowired //permite a resolução de dependência via injeção de dependência
 	public LoginController(UsuarioDAO dao){
 		this.dao = dao;
 	}

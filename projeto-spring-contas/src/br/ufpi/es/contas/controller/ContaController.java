@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.ufpi.es.contas.dao.ContaDAO;
 import br.ufpi.es.contas.modelo.Conta;
 
-@Controller //Define como padrão Controlador para permitir a resolução da Injeção de Dependência
+@Controller
 public class ContaController {
 	private ContaDAO dao;
 	
