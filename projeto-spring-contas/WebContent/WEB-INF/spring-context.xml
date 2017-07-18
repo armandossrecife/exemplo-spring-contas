@@ -17,6 +17,13 @@
 	<mvc:interceptors>
   		<bean class="br.ufpi.es.contas.interceptor.AutorizadorInterceptor" />
 	</mvc:interceptors>
+	
+	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost/bancocontas"/>
+		<property name="username" value="armando"/>
+		<property name="password" value="skyinfo"/>
+	</bean>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />

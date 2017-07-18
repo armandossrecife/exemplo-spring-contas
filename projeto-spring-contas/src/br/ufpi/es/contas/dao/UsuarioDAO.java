@@ -5,20 +5,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.ufpi.es.contas.ConnectionFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import br.ufpi.es.contas.modelo.Usuario;
 
+@Repository //Padrão repositório para permitir resolução da Injeção de Dependência
 public class UsuarioDAO {
 	private Connection connection;
 
-	public UsuarioDAO() {
+	@Autowired //Injeção de Dependência do DataSource registrado no struts-content
+	public UsuarioDAO(DataSource ds) {
 		try {
-			connection = new ConnectionFactory().getConnection();
+			connection = ds.getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * Checa se o usuário existe
+	 * @param usuario Usuario 
+	 * @return TRUE se existe
+	 */
 	public boolean existeUsuario(Usuario usuario) {
 		
 		if(usuario == null) {
@@ -41,6 +52,10 @@ public class UsuarioDAO {
 		}
 	}
 
+	/**
+	 * Insere um novo Usuario
+	 * @param usuario Usuario
+	 */
 	public void insere(Usuario usuario) {
 		if(usuario == null) {
 			throw new IllegalArgumentException("Usuário nao deve ser nulo");
@@ -57,4 +72,3 @@ public class UsuarioDAO {
 		}		
 	}
 }
-

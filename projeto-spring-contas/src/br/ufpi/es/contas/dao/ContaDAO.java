@@ -9,21 +9,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.ufpi.es.contas.ConnectionFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import br.ufpi.es.contas.modelo.Conta;
 import br.ufpi.es.contas.modelo.TipoDaConta;
 
+@Repository //Padrão repositório para permitir resolução da Injeção de Dependência
 public class ContaDAO {
 	private Connection connection;
 
-	public ContaDAO() {
+	@Autowired //Injeção de Dependência do DataSource registrado no struts-content
+	public ContaDAO(DataSource ds) {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+			this.connection = ds.getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * Adiciona uma nova Conta
+	 * @param conta Conta
+	 */
 	public void adiciona(Conta conta) {
 		String sql = "insert into contas (descricao, paga, valor, tipo) values (?,?,?,?)";
 		PreparedStatement stmt;
@@ -40,6 +50,10 @@ public class ContaDAO {
 		
 	}
 
+	/**
+	 * Remove uma Conta
+	 * @param conta Conta
+	 */
 	public void remove(Conta conta) {
 
 		if (conta.getId() == null) {
@@ -58,6 +72,10 @@ public class ContaDAO {
 		}
 	}
 
+	/**
+	 * Dada uma Conta existente faz a alteração da mesma
+	 * @param conta Conta com novos dados
+	 */
 	public void altera(Conta conta) {
 		String sql = "update contas set descricao = ?, paga = ?, dataPagamento = ?, tipo = ?, valor = ? where id = ?";
 		PreparedStatement stmt;
@@ -77,6 +95,10 @@ public class ContaDAO {
 		}
 	}
 
+	/**
+	 * Retorna uma lista de Contas
+	 * @return Lista de Contas
+	 */
 	public List<Conta> lista() {
 		try {
 			List<Conta> contas = new ArrayList<Conta>();
@@ -98,6 +120,11 @@ public class ContaDAO {
 		}
 	}
 
+	/**
+	 * Dado um id de uma Conta faz a busca da Conta
+	 * @param id identificador da Conta
+	 * @return conta Conta
+	 */
 	public Conta buscaPorId(Long id) {
 
 		
@@ -123,6 +150,10 @@ public class ContaDAO {
 		}
 	}
 
+	/**
+	 * Dada uma Conta com id fornecido, caso a Conta não esteja paga muda o status para pago
+	 * @param id id da Conta
+	 */
 	public void paga(Long id) {
 
 		if (id == null) {
@@ -143,6 +174,12 @@ public class ContaDAO {
 		}
 	}
 
+	/**
+	 * Popula dados da Conta 
+	 * @param rs ResultSet
+	 * @return conta Conta
+	 * @throws SQLException caso ocorra alguma Exceção SQL
+	 */
 	private Conta populaConta(ResultSet rs) throws SQLException {
 		Conta conta = new Conta();
 
