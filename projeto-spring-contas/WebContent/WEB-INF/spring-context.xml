@@ -11,10 +11,25 @@
 						
 	<context:component-scan base-package="br.ufpi.es.contas" />
 	<mvc:annotation-driven />
+	
+	<mvc:default-servlet-handler/>
+	
+	<mvc:interceptors>
+  		<bean class="br.ufpi.es.contas.interceptor.AutorizadorInterceptor" />
+	</mvc:interceptors>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<bean id="conversionService" 
+	class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="br.ufpi.es.contas.StringToEnumConverterFactory" />
+            </list>
+        </property>
+    </bean>
 	
 </beans>

@@ -12,6 +12,7 @@ public class ConnectionFactory {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Banco carregado com sucesso!");
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
 		}

@@ -8,6 +8,6 @@ public class Home {
 
 	@RequestMapping("/home")
 	public String carregaPaginaHome(){
-		return "home";
+		return "menu";
 	}
 }
